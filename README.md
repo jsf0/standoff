@@ -25,7 +25,7 @@ To install the script and man page, run:
 
 ### Usage
 
-See the man page(standoff.1) for full usage examples. Below is a brief explanation
+See the man page (standoff.1) for full usage examples. Below is a brief explanation
 to get you running. 
 
 Standoff requires a list of target machines to configure,
