@@ -1,0 +1,10 @@
+10.0.0.1
+10.0.0.1:22
+user@10.0.0.1
+user:password@10.0.0.1
+user:password@10.0.0.1:22
+hostname
+hostname:22
+user@hostname
+user:password@hostname
+user:password@hostname:22

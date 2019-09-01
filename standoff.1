@@ -1,0 +1,51 @@
+.\"
+.\"Copyright (c) 2019 Joseph Fierro <joseph.fierro@runbox.com>
+.\"
+.\"Permission to use, copy, modify, and distribute this software for any
+.\"purpose with or without fee is hereby granted, provided that the above
+.\"copyright notice and this permission notice appear in all copies.
+.\"
+.\"THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+.\"WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+.\"MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+.\"ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+.\"WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+.\"ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+.\"OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+.Dd $Mdocdate: March 2 2019 $
+.Dt STANDOFF 1
+.Os
+.Sh NAME
+.Nm standoff
+.Nd Easy automated remote configuration tool
+.Sh SYNOPSIS
+.Nm standoff
+.Fl t Ar target_list
+.Fl c Ar command_list
+.Op Fl f Ar file_list
+.Sh DESCRIPTION
+The
+.Nm
+tool performs automated remote configuration of servers via SSH.
+It takes 3 files as its arguments: a list of targets, a list of commands
+to run on those targets, and optionally, a list of files to upload to them.
+The following options are used to input the files
+.Nm
+will use:
+.Bl -tag -width Dsssigfile
+.It Fl t Ar target_list
+The target file. This is a text file containing a list of IP addresses or hostnames to configure, one per line. 
+The targets can also contain the username, password, and port number of server. The following are all valid:
+user@hostname, user:password@hostname, user@10.0.0.1:22. Consult the documentation of Net::OpenSSH for the full
+list of valid options
+.It Fl c Ar command_list
+The list of commands to run. This is a text file with one command per line. It can be an empty file if you
+do not wish to run any commands, but it must always be supplied.
+.It Fl f Ar file_list
+An optional list of files to upload. This is a text file containing the path to any files (configuration files, etc) 
+you want to upload
+to the targets. They will be uploaded to the user's home directory, and are always uploaded before
+any commands are executed on the target. This allows you to move them, execute them, etc., simply by placing 
+the necessary commands to do so in the commands file.
+.El
+.Pp

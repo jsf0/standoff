@@ -1,0 +1,67 @@
+#!/usr/bin/env perl
+# Copyright (c) 2019 Joseph Fierro <joseph.fierro@runbox.com>
+#
+# Permission to use, copy, modify, and distribute this software for any
+# purpose with or without fee is hereby granted, provided that the above
+# copyright notice and this permission notice appear in all copies.
+#
+# THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+# WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+# ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+# WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+# ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+# OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+use strict;
+use warnings;
+
+use Getopt::Long;
+use Net::OpenSSH;
+
+my $targetlist;
+my $commandlist;
+my $filelist;
+
+GetOptions("targets|t=s" => \$targetlist,
+	   "commands|c=s" => \$commandlist,
+	   "files|f:s" => \$filelist)
+or die "Error parsing command line arguments";
+
+open(my $targets_fh, "<", "$targetlist") or die "Error opening $targetlist: $!";
+open(my $commands_fh, "<", "$commandlist") or die "Error opening $commandlist: $!";
+
+my @targets = <$targets_fh>;
+chomp(@targets);
+
+my @commands = <$commands_fh>;
+chomp(@commands);
+
+if ($filelist) {
+	open(my $files_fh, "<", "$filelist") or die "Error opening $filelist: $!";
+
+        my @files = <$files_fh>;
+        chomp(@files);
+
+	foreach (@targets) {
+		my $ssh = Net::OpenSSH->new($_);
+		$ssh->error and warn "Couldn't connect: " . $ssh->error;
+
+		foreach (@files) {
+			$ssh->scp_put($_, $_) or warn "scp failed: " . $ssh->error;
+		}
+
+		foreach (@commands) {
+			$ssh->system($_) or warn "Command failed: " . $ssh->error;
+		}
+	}
+} else {
+	foreach (@targets) {
+		my $ssh = Net::OpenSSH->new($_);
+		$ssh->error and warn "Couldn't connect: " . $ssh->error;
+	
+		foreach (@commands) {
+			$ssh->system($_) or warn "Command failed: " . $ssh->error;
+		}
+	}
+}
