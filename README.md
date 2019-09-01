@@ -48,3 +48,16 @@ If you do not want to run any commands on the target, the "commands" file can be
 but it must be supplied. This is useful if you only want to upload files.
 
 Sample files for each are provided to show acceptable formats. 
+
+### Limitations
+
+standoff is not very fast. Targets are handled serially in order to simplify the code.
+Clever use of threading could speed up this process, but is not implemented yet.
+
+Aruba APs will not work as targets as they do not allow logins over SSH without a terminal.
+This problem may also affect other HP products. 
+
+The user-facing connection options for SSH are limited. This is to avoid too many knobs, but
+some edge cases may require more fine-tuning for successful connections.
+
+standoff is a bit clunky to use on a single target.
