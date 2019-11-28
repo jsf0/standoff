@@ -49,7 +49,7 @@ the commands to do so in the commands file.
 If you do not want to run any commands on the target, the "commands" file can be an empty file,
 but it must be supplied. This is useful if you only want to upload files.
 
-Sample files for each are provided to show acceptable formats. 
+Example files for each are provided to show acceptable formats. 
 
 ### Limitations
 
