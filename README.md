@@ -51,6 +51,9 @@ but it must be supplied. This is useful if you only want to upload files.
 
 Example files for each are provided to show acceptable formats. 
 
+A WIP shell script called standoff_generator.sh is provided to help you generate configuration files
+for easier use on one target. 
+
 ### Limitations
 
 standoff is not very fast. Targets are handled serially in order to simplify the code.
