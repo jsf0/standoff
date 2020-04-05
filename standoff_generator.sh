@@ -15,7 +15,7 @@
 
 
 
-# This is a rough script to generate standoff config files for you.
+# This is a (very) rough script to generate standoff config files for you.
 # It does minimal error checking and is really intended to get you
 # started, but it does make standoff friendlier to use on one target.
 
