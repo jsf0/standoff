@@ -22,7 +22,7 @@ run the following command first:
 To install the script and man page, run:
 ```
 
-# ./standoff_install
+# ./standoff_install.sh
 ```
 
 ### Usage
