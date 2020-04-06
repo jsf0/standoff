@@ -29,15 +29,11 @@ GetOptions("targets|t=s" => \$targetlist,
 or die "Error parsing command line arguments";
 
 open(my $targets_fh, "<", "$targetlist") or die "Error opening $targetlist: $!";
-open(my $commands_fh, "<", "$commandlist") or die "Error opening $commandlist: $!";
 
 my @targets = <$targets_fh>;
 chomp(@targets);
 
-my @commands = <$commands_fh>;
-chomp(@commands);
-
-if ($filelist) {
+sub upload_files {
 	open(my $files_fh, "<", "$filelist") or die "Error opening $filelist: $!";
 
         my @files = <$files_fh>;
@@ -50,12 +46,15 @@ if ($filelist) {
 		foreach (@files) {
 			$ssh->scp_put($_, $_) or warn "scp failed: " . $ssh->error;
 		}
-
-		foreach (@commands) {
-			$ssh->system($_) or warn "Command failed: " . $ssh->error;
-		}
 	}
-} else {
+}
+
+sub run_commands {
+	open(my $commands_fh, "<", "$commandlist") or die "Error opening $commandlist: $!";
+
+	my @commands = <$commands_fh>;
+	chomp(@commands);
+
 	foreach (@targets) {
 		my $ssh = Net::OpenSSH->new($_);
 		$ssh->error and warn "Couldn't connect: " . $ssh->error;
@@ -64,4 +63,12 @@ if ($filelist) {
 			$ssh->system($_) or warn "Command failed: " . $ssh->error;
 		}
 	}
+}
+
+if ($filelist) {
+	upload_files();
+}
+
+if ($commandlist) {
+	run_commands();
 }

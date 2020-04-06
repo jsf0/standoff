@@ -46,9 +46,6 @@ where "targets" is a text file containing the hostnames or IP addresses to confi
 are executed, so if you need to move them to the correct locations on the target, you can put 
 the commands to do so in the commands file.
 
-If you do not want to run any commands on the target, the "commands" file can be an empty file,
-but it must be supplied. This is useful if you only want to upload files.
-
 Example files for each are provided to show acceptable formats. 
 
 A WIP shell script called standoff_generator.sh is provided to help you generate configuration files

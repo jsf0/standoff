@@ -21,7 +21,7 @@
 .Sh SYNOPSIS
 .Nm standoff
 .Fl t Ar target_list
-.Fl c Ar command_list
+.Op Fl c Ar command_list
 .Op Fl f Ar file_list
 .Sh DESCRIPTION
 The
@@ -39,10 +39,9 @@ The targets can also contain the username, password, and port number of server. 
 user@hostname, user:password@hostname, user@10.0.0.1:22. Consult the documentation of Net::OpenSSH for the full
 list of valid options
 .It Fl c Ar command_list
-The list of commands to run. This is a text file with one command per line. It can be an empty file if you
-do not wish to run any commands, but it must always be supplied.
+The list of commands to run. This is a text file with one command per line.
 .It Fl f Ar file_list
-An optional list of files to upload. This is a text file containing the path to any files (configuration files, etc) 
+A list of files to upload. This is a text file containing the path to any files (configuration files, etc) 
 you want to upload
 to the targets. They will be uploaded to the user's home directory, and are always uploaded before
 any commands are executed on the target. This allows you to move them, execute them, etc., simply by placing 
