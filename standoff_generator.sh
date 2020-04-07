@@ -21,37 +21,37 @@
 
 echo "Enter save name for this configuration:"
 read SAVENAME
-if [ -z $SAVENAME ]; then
+if [ -z "$SAVENAME" ]; then
 	echo "Must enter a name for this configuration"
 	exit
 fi
-mkdir $SAVENAME
+mkdir "$SAVENAME"
 
 echo "Enter target, one per line:"
 read TARGET
-if [ -z $TARGET ]; then
+if [ -z "$TARGET" ]; then
 	echo "Must enter a target"
-	rm -rf $SAVENAME
+	rm -rf "$SAVENAME"
 	exit
 fi
-echo $TARGET > $SAVENAME/target
+echo "$TARGET" > "$SAVENAME"/target
 
 echo "Enter files to upload (leave empty if you don't want to upload files):"
 read FILES
-echo $FILES > $SAVENAME/files
+echo "$FILES" > "$SAVENAME"/files
 
 echo "Enter commands to run (leave empty if you don't want to run any commands):"
 read COMMANDS
-echo $COMMANDS > $SAVENAME/commands
+echo "$COMMANDS" > "$SAVENAME"/commands
 
 echo "Run standoff now (y/n)?"
 read ANSWER
-if [ $ANSWER = "y" ]; then
+if [ "$ANSWER" = "y" ]; then
 	echo "Running standoff now..."
-		if [ -z $FILES ]; then
-		    standoff -t $SAVENAME/target -c $SAVENAME/commands
+		if [ -z "$FILES" ]; then
+		    standoff -t "$SAVENAME"/target -c "$SAVENAME"/commands
 		else
-		    standoff -t $SAVENAME/target -f $SAVENAME/files -c $SAVENAME/commands
+		    standoff -t "$SAVENAME"/target -f "$SAVENAME"/files -c "$SAVENAME"/commands
 		fi
 else
 	echo "Files placed in \"$SAVENAME\" directory. Exiting now"
