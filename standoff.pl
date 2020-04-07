@@ -33,42 +33,31 @@ open(my $targets_fh, "<", "$targetlist") or die "Error opening $targetlist: $!";
 my @targets = <$targets_fh>;
 chomp(@targets);
 
-sub upload_files {
-	open(my $files_fh, "<", "$filelist") or die "Error opening $filelist: $!";
+foreach (@targets) {
+	my $ssh = Net::OpenSSH->new($_);
+        $ssh->error and warn "Couldn't connect: " . $ssh->error;
 
-        my @files = <$files_fh>;
-        chomp(@files);
+	if ($filelist) {
+        	open(my $files_fh, "<", "$filelist") or die "Error opening $filelist: $!";
 
-	foreach (@targets) {
-		my $ssh = Net::OpenSSH->new($_);
-		$ssh->error and warn "Couldn't connect: " . $ssh->error;
+        	my @files = <$files_fh>;
+        	chomp(@files);
 
-		foreach (@files) {
-			$ssh->scp_put($_, $_) or warn "scp failed: " . $ssh->error;
-		}
+        	foreach (@files) {
+                	$ssh->scp_put($_, $_) or warn "scp failed: " . $ssh->error;
+        	}
+
 	}
-}
 
-sub run_commands {
-	open(my $commands_fh, "<", "$commandlist") or die "Error opening $commandlist: $!";
+	if ($commandlist) {
+	        open(my $commands_fh, "<", "$commandlist") or die "Error opening $commandlist: $!";
 
-	my @commands = <$commands_fh>;
-	chomp(@commands);
+        	my @commands = <$commands_fh>;
+        	chomp(@commands);
 
-	foreach (@targets) {
-		my $ssh = Net::OpenSSH->new($_);
-		$ssh->error and warn "Couldn't connect: " . $ssh->error;
-	
-		foreach (@commands) {
-			$ssh->system($_) or warn "Command failed: " . $ssh->error;
-		}
+        	foreach (@commands) {
+                	$ssh->system($_) or warn "Command failed: " . $ssh->error;
+        	}
+
 	}
-}
-
-if ($filelist) {
-	upload_files();
-}
-
-if ($commandlist) {
-	run_commands();
 }
