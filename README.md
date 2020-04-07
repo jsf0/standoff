@@ -30,25 +30,26 @@ To install the script and man page, run:
 See the man page (standoff.1) for full usage examples. Below is a brief explanation
 to get you running. 
 
-Standoff requires a list of target machines to configure,
-a list of commands to run on them, and optionally, a list of files to upload to those targets.
+Standoff requires a file containing a list of target machines (one per line) to configure.
+You can then specify a payload file with a list of commands to run on those machines with the -c option.
+Additionally, you can give standoff a list of files to upload with the -f option. 
 
-These files are read line by line. A typical usage might look like this:
+These payload files are all read line by line. A typical usage might look like this:
  
 ```
 
-standoff -t targets -c commands -f files
+standoff.pl -t targets -c commands -f files
 ```
 
 where "targets" is a text file containing the hostnames or IP addresses to configure (one per line),
-"commands" is a text file containing the shell commands to run (one command per line) and, if desired,
+"commands" is a text file containing the shell commands to run (one command per line) and
 "files" is a list of files to upload. It is important to note that files are always uploaded before any commands
-are executed, so if you need to move them to the correct locations on the target, you can put 
+are executed on the remote machine, so if you need to move them to the correct locations on the target, you can put 
 the commands to do so in the commands file.
 
-Example files for each are provided to show acceptable formats. 
+Example payload files for each are provided to show acceptable formats. 
 
-A WIP shell script called standoff_generator.sh is provided to help you generate configuration files
+A WIP shell script called standoff_generator.sh is provided to help you generate these payload files
 for easier use on one target. 
 
 ### Limitations
