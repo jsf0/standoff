@@ -38,7 +38,7 @@ These payload files are all read line by line. A typical usage might look like t
  
 ```
 
-standoff -t targets -c commands -f files
+standoff.pl -t targets -c commands -f files
 ```
 
 where "targets" is a text file containing the hostnames or IP addresses to configure (one per line),

@@ -49,9 +49,9 @@ read ANSWER
 if [ "$ANSWER" = "y" ]; then
 	echo "Running standoff now..."
 		if [ -z "$FILES" ]; then
-		    standoff -t "$SAVENAME"/target -c "$SAVENAME"/commands
+		    standoff.pl -t "$SAVENAME"/target -c "$SAVENAME"/commands
 		else
-		    standoff -t "$SAVENAME"/target -f "$SAVENAME"/files -c "$SAVENAME"/commands
+		    standoff.pl -t "$SAVENAME"/target -f "$SAVENAME"/files -c "$SAVENAME"/commands
 		fi
 else
 	echo "Files placed in \"$SAVENAME\" directory. Exiting now"
