@@ -44,7 +44,7 @@ foreach (@targets) {
         	chomp(@files);
 
         	foreach (@files) {
-                	$ssh->scp_put($_, $_) or warn "scp failed: " . $ssh->error;
+                	$ssh->scp_put($_, $_) or die "Upload of \'$_\' failed: " . $ssh->error;
         	}
 
 	}
@@ -56,7 +56,7 @@ foreach (@targets) {
         	chomp(@commands);
 
         	foreach (@commands) {
-                	$ssh->system($_) or warn "Command failed: " . $ssh->error;
+                	$ssh->system($_) or die "Command \'$_\' failed: " . $ssh->error;
         	}
 
 	}
