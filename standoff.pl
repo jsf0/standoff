@@ -21,6 +21,7 @@ use Net::OpenSSH;
 use Config::IniFiles;
 
 my $config_file;
+my $ssh;
 
 GetOptions("config_file|f=s" => \$config_file)
 	or die "Error parsing command line arguments";
@@ -30,6 +31,9 @@ my $cfg = Config::IniFiles->new(-file => "$config_file", -nomultiline => 1);
 my @targets = $cfg->val('Targets', 'target');
 chomp(@targets);
 
+my @keypath = $cfg->val('Targets', 'ssh_key');
+chomp(@keypath);
+
 my @files = $cfg->val('Files', 'file');
 chomp(@files);
 
@@ -37,8 +41,13 @@ my @commands = $cfg->val('Commands', 'command');
 chomp(@commands);
 
 foreach (@targets) {
-	my $ssh = Net::OpenSSH->new($_);
-       	$ssh->error and warn "Couldn't connect: " . $ssh->error;
+	if (@keypath) {
+		$ssh = Net::OpenSSH->new($_, key_path => @keypath);
+	       	$ssh->error and warn "Couldn't connect: " . $ssh->error;
+	} else {
+		$ssh = Net::OpenSSH->new($_);
+                $ssh->error and warn "Couldn't connect: " . $ssh->error;
+	}
 
 	if (@files) {
             foreach (@files) {

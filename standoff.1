@@ -38,6 +38,8 @@ An example of a simple, valid payload file is as follows:
 .It
 target=172.16.1.1
 .It
+ssh_key=/path/to/ssh/key
+.It
 [Files]
 .It
 file=httpd.conf
@@ -54,5 +56,8 @@ in order. Files are always uploaded before commands are run.
 .Pp
 The [Commands] or [Files] sections do not need to be present and
 .Nm
-will simply ignore that section. 
+will simply ignore that section. Likewise, the ssh_key parameter in the [Targets] section is
+optional. 
+.Nm
+will attempt to connect via passphrase-based authentication if it is not supplied.
 

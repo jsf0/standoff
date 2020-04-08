@@ -36,6 +36,7 @@ Standoff requires a payload file in INI format. A simple example might look like
 ```
 [Targets]
 target=172.16.1.1
+ssh_key=/path/to/ssh_key
 
 [Files]
 file=httpd.conf
@@ -51,6 +52,8 @@ the commands in the Commands section.
 Any files are always uploaded before commands
 are executed on the remote machine, so if you need to move them to the correct locations on the target, you can put 
 the commands to do so in the commands section.
+The ssh_key parameter is optional. If you don't provide one, standoff will 
+attempt to connect to the target with passphrase-based authentication.
 
 More complex example payload files can be found in the examples/ directory. 
 
