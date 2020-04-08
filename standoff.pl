@@ -18,46 +18,37 @@ use warnings;
 
 use Getopt::Long;
 use Net::OpenSSH;
+use Config::IniFiles;
 
-my $targetlist;
-my $commandlist;
-my $filelist;
+my $config_file;
 
-GetOptions("targets|t=s" => \$targetlist,
-	   "commands|c=s" => \$commandlist,
-	   "files|f:s" => \$filelist)
-or die "Error parsing command line arguments";
+GetOptions("config_file|f=s" => \$config_file)
+	or die "Error parsing command line arguments";
 
-open(my $targets_fh, "<", "$targetlist") or die "Error opening $targetlist: $!";
+my $cfg = Config::IniFiles->new(-file => "$config_file", -nomultiline => 1);
 
-my @targets = <$targets_fh>;
+my @targets = $cfg->val('Targets', 'target');
 chomp(@targets);
+
+my @files = $cfg->val('Files', 'file');
+chomp(@files);
+
+my @commands = $cfg->val('Commands', 'command');
+chomp(@commands);
 
 foreach (@targets) {
 	my $ssh = Net::OpenSSH->new($_);
-        $ssh->error and warn "Couldn't connect: " . $ssh->error;
+       	$ssh->error and warn "Couldn't connect: " . $ssh->error;
 
-	if ($filelist) {
-        	open(my $files_fh, "<", "$filelist") or die "Error opening $filelist: $!";
-
-        	my @files = <$files_fh>;
-        	chomp(@files);
-
-        	foreach (@files) {
-                	$ssh->scp_put($_, $_) or die "Upload of \'$_\' failed: " . $ssh->error;
-        	}
-
+	if (@files) {
+            foreach (@files) {
+               	    $ssh->scp_put($_, $_) or die "Upload of \'$_\' failed: " . $ssh->error;
+            }
 	}
 
-	if ($commandlist) {
-	        open(my $commands_fh, "<", "$commandlist") or die "Error opening $commandlist: $!";
-
-        	my @commands = <$commands_fh>;
-        	chomp(@commands);
-
-        	foreach (@commands) {
-                	$ssh->system({tty => 1}, $_) or die "Command \'$_\' failed: " . $ssh->error;
-        	}
-
+	if (@commands) {
+            foreach (@commands) {
+               	    $ssh->system({tty => 1}, $_) or die "Command \'$_\' failed: " . $ssh->error;
+            }
 	}
 }

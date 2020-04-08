@@ -11,15 +11,16 @@ As of right now, standoff is an unrefined work-in-progress.
 
 ### Installing
 
-The only module required is Net::OpenSSH. If this is not present, 
-run the following command first:
+You will need the following Perl modules: Net::OpenSSH and Config::IniFiles. If they are not present, 
+install them first:
 
 ```
 
 # cpan -i Net::OpenSSH
+# cpan -i Config::IniFiles
 ```
 
-To install the script and man page, run:
+To install standoff and its man page, run:
 ```
 
 # ./standoff_install.sh
@@ -30,24 +31,28 @@ To install the script and man page, run:
 See the man page (standoff.1) for full usage examples. Below is a brief explanation
 to get you running. 
 
-Standoff requires a file containing a list of target machines (one per line) to configure.
-You can then specify a payload file with a list of commands to run on those machines with the -c option.
-Additionally, you can give standoff a list of files to upload with the -f option. 
-
-These payload files are all read line by line. A typical usage might look like this:
+Standoff requires a payload file in INI format. A simple example might look like this:
  
 ```
+[Targets]
+target=172.16.1.1
 
-standoff.pl -t targets -c commands -f files
+[Files]
+file=httpd.conf
+
+[Commands]
+command=doas cp httpd.conf /etc
+command=doas rcctl restart httpd
+
 ```
 
-where "targets" is a text file containing the hostnames or IP addresses to configure (one per line),
-"commands" is a text file containing the shell commands to run (one command per line) and
-"files" is a list of files to upload. It is important to note that files are always uploaded before any commands
+This will upload a file called httpd.conf into the remote user's home directory, then execute
+the commands in the Commands section. 
+Any files are always uploaded before commands
 are executed on the remote machine, so if you need to move them to the correct locations on the target, you can put 
-the commands to do so in the commands file.
+the commands to do so in the commands section.
 
-Example payload files for each are provided to show acceptable formats. 
+More complex example payload files can be found in the examples/ directory. 
 
 ### Limitations
 
@@ -56,5 +61,3 @@ Clever use of threading could speed up this process, but is not implemented yet.
 
 The user-facing connection options for SSH are limited. This is to avoid too many knobs, but
 some edge cases may require more fine-tuning for successful connections.
-
-standoff is a bit clunky to use on a single target.
