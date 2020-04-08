@@ -54,9 +54,6 @@ Example payload files for each are provided to show acceptable formats.
 standoff is not very fast. Targets are handled serially in order to simplify the code.
 Clever use of threading could speed up this process, but is not implemented yet.
 
-Aruba APs will not work as targets as they do not allow logins over SSH without a terminal.
-This problem may also affect other HP products. 
-
 The user-facing connection options for SSH are limited. This is to avoid too many knobs, but
 some edge cases may require more fine-tuning for successful connections.
 
