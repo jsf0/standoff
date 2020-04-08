@@ -56,7 +56,7 @@ foreach (@targets) {
         	chomp(@commands);
 
         	foreach (@commands) {
-                	$ssh->system($_) or die "Command \'$_\' failed: " . $ssh->error;
+                	$ssh->system({tty => 1}, $_) or die "Command \'$_\' failed: " . $ssh->error;
         	}
 
 	}
