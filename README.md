@@ -1,5 +1,3 @@
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/ea9cfcc5831b449c9a1096d1dfd0037b)](https://www.codacy.com/manual/jsfierro/standoff?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=jsfierro/standoff&amp;utm_campaign=Badge_Grade)
-
 ## standoff
 
 Standoff is a Perl program to automate remote configuration of machines via SSH.
