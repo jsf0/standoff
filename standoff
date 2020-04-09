@@ -26,6 +26,10 @@ my $ssh;
 GetOptions( "config_file|f=s" => \$config_file )
   or die "Error parsing command line arguments";
 
+if ( !$config_file ) {
+    die "Error: No payload file specified";
+}
+
 my $cfg = Config::IniFiles->new( -file => "$config_file", -nomultiline => 1 );
 
 my $target = $cfg->val( 'Target', 'target' );
