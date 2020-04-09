@@ -34,7 +34,7 @@ to get you running.
 Standoff requires a payload file in INI format. A simple example might look like this:
  
 ```
-[Targets]
+[Target]
 target=172.16.1.1
 ssh_key=/path/to/ssh_key
 
