@@ -18,6 +18,13 @@ install them first:
 # cpan -i Config::IniFiles
 ```
 
+OpenBSD users are advised to use pkg_add(1) to install these modules
+rather than cpan(1):
+
+```
+# pkg_add p5-Net-OpenSSH p5-Config-IniFiles
+```
+
 To install standoff and its man page, run:
 ```
 
