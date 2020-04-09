@@ -45,6 +45,11 @@ command=doas rcctl restart httpd
 
 ```
 
+Then, to run standoff, run:
+```
+standoff -f payload_file.ini
+```
+
 This will upload a file called httpd.conf into the remote user's home directory, then execute
 the commands in the Commands section. 
 Any files are always uploaded before commands
