@@ -57,8 +57,5 @@ More complex example payload files can be found in the examples/ directory.
 
 ### Limitations
 
-standoff is not very fast. Targets are handled serially in order to simplify the code.
-Clever use of threading could speed up this process, but is not implemented yet.
-
 The user-facing connection options for SSH are limited. This is to avoid too many knobs, but
 some edge cases may require more fine-tuning for successful connections.
