@@ -48,7 +48,7 @@ file=httpd.conf
 
 [Commands]
 command=doas cp httpd.conf /etc
-command=doas rcctl restart httpd
+command=doas rcctl reload httpd
 
 ```
 
