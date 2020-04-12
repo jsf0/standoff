@@ -21,6 +21,7 @@
 .Sh SYNOPSIS
 .Nm standoff.pl
 .Fl f Ar payload_file
+.Op Fl f Ar payload_file2
 .Sh DESCRIPTION
 The
 .Nm
@@ -28,33 +29,31 @@ tool performs automated remote configuration of servers via SSH.
 It takes a payload file as its argument, containing a section for
 .Bl -tag -width Dsssigfile
 .It Fl f Ar payload_file
-The payload file. This is a text file in INI format.
+The payload file. This is a text file in INI format (see below for format). Multiple payload files may be
+given by specifying the -f option again. 
 .El
+.Sh EXAMPLES
 .Pp
 An example of a simple, valid payload file is as follows:
-.Bl
-.It
-[Target]
-.It
-target=172.16.1.1
-.It
-ssh_key=/path/to/ssh/key
-.It
-[Files]
-.It
-file=httpd.conf
-.It
-[Commands]
-.It
-command=doas cp httpd.conf /etc
-.It
-command=doas rcctl restart httpd
-.El
+.Dl [Target]
+.Dl target=172.16.1.1
+.Dl ssh_key=/path/to/ssh/key
+
+.Dl [Files]
+.Dl file=httpd.conf
+
+.Dl [Commands]
+.Dl command=doas cp httpd.conf /etc
+.Dl command=doas rcctl reload httpd
 .Pp
-This will first upload the file "httpd.conf" to the target, 172.16.1.1, then execute the commands
+To run this payload, execute the following:
+.Dl $ standoff -f payload_file 
+.Pp
+This will first connect to the target, 172.16.1.1, using the SSH key found at /path/to/ssh_key.
+It will upload the file "httpd.conf" to the remote user's home directory, then execute the commands
 in order. Files are always uploaded before commands are run.
 .Pp
-The [Commands] or [Files] sections do not need to be present and
+If either the [Commands] or [Files] sections is not present,
 .Nm
 will simply ignore that section. Likewise, the ssh_key parameter in the [Target] section is
 optional. 
