@@ -20,17 +20,27 @@
 .Nd Easy automated remote configuration tool
 .Sh SYNOPSIS
 .Nm standoff.pl
+.Op Fl p
 .Fl f Ar payload_file
 .Op Fl f Ar payload_file2
 .Sh DESCRIPTION
 The
 .Nm
 tool performs automated remote configuration of servers via SSH.
-It takes a payload file as its argument, containing a section for
+The following options determine behavior: 
 .Bl -tag -width Dsssigfile
 .It Fl f Ar payload_file
-The payload file. This is a text file in INI format (see below for format). Multiple payload files may be
+The payload file. This is a text file in INI format (see examples below for format).
+Multiple payload files may be
 given by specifying the -f option again. 
+.It Fl p
+Run
+.Nm
+in "pull mode".
+.Nm
+will connect to the target in the [Target] section, download the files listed in the 
+[Files] section of the payload file,
+and then execute all commands in the [Commands] section locally.
 .El
 .Sh EXAMPLES
 .Pp

@@ -67,6 +67,12 @@ attempt to connect to the target with passphrase-based authentication.
 
 More complex example payload files can be found in the examples/ directory. 
 
+standoff can also be run in "pull" mode by specifying the -p option.
+This will connect to the server in the [Target] section, download any files requested in the
+[Files] section, and then locally run the commands from the [Commands] section.
+This is especially useful when combined with cron, as it can be used to remotely manage
+endpoints even if they are behind NAT and/or firewalls. 
+
 ### Limitations
 
 The user-facing connection options for SSH are limited. This is to avoid too many knobs, but
