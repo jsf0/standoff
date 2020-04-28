@@ -24,9 +24,10 @@ my @payload_confs;
 my $ssh;
 my $pull_mode = 0;
 
-GetOptions( "payload_conf|f=s" => \@payload_confs,
-	    "p" => \$pull_mode)
-  or die "Error parsing command line arguments";
+GetOptions(
+    "payload_conf|f=s" => \@payload_confs,
+    "p"                => \$pull_mode
+) or die "Error parsing command line arguments";
 
 if ( !@payload_confs ) {
     die "Error: No payload configuration file specified";
@@ -67,27 +68,27 @@ foreach my $payload (@payload_confs) {
 
     if (@files) {
         foreach (@files) {
-	    if ($pull_mode) {
-		$ssh->scp_get( $_, $_ )
-		  or die "Download of \'$_\' failed: " . $ssh->error;
-	    }
-	    else {
+            if ($pull_mode) {
+                $ssh->scp_get( $_, $_ )
+                  or die "Download of \'$_\' failed: " . $ssh->error;
+            }
+            else {
                 $ssh->scp_put( $_, $_ )
                   or die "Upload of \'$_\' failed: " . $ssh->error;
-	    }
+            }
         }
     }
 
     if (@commands) {
         foreach (@commands) {
-	    if ($pull_mode) {
-		system( $_ ) == 0
-		  or die "Command \'$_\' failed: $?"
-	    }
-	    else {
+            if ($pull_mode) {
+                system($_ ) == 0
+                  or die "Command \'$_\' failed: $?";
+            }
+            else {
                 $ssh->system( { tty => 1 }, $_ )
                   or die "Command \'$_\' failed: " . $ssh->error;
-	    }
+            }
         }
     }
 }
