@@ -28,8 +28,9 @@ rather than cpan(1):
 To install standoff and its man page, run:
 ```
 
-# ./standoff_install.sh
+# ./install.sh
 ```
+You may need to tweak the install locations for your platform. 
 
 ### Usage
 
