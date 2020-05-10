@@ -1,5 +1,5 @@
 .\"
-.\"Copyright (c) 2019 Joseph Fierro <joseph.fierro@runbox.com>
+.\"Copyright (c) 2020 Joseph Fierro <joseph.fierro@runbox.com>
 .\"
 .\"Permission to use, copy, modify, and distribute this software for any
 .\"purpose with or without fee is hereby granted, provided that the above
@@ -12,7 +12,7 @@
 .\"WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
 .\"ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 .\"OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-.Dd $Mdocdate: March 2 2019 $
+.Dd $Mdocdate: April 18 2020 $
 .Dt STANDOFF 1
 .Os
 .Sh NAME
@@ -20,44 +20,54 @@
 .Nd Easy automated remote configuration tool
 .Sh SYNOPSIS
 .Nm standoff.pl
+.Op Fl p
 .Fl f Ar payload_file
+.Op Fl f Ar payload_file2
 .Sh DESCRIPTION
 The
 .Nm
 tool performs automated remote configuration of servers via SSH.
-It takes a payload file as its argument, containing a section for
+The following options determine behavior: 
 .Bl -tag -width Dsssigfile
 .It Fl f Ar payload_file
-The payload file. This is a text file in INI format.
+The payload file. This is a text file in INI format (see examples below for format).
+Multiple payload files may be
+given by specifying the -f option again. 
+.It Fl p
+Run
+.Nm
+in "pull mode".
+.Nm
+will connect to the target in the [Target] section, download the files listed in the 
+[Files] section of the payload file,
+and then execute all commands in the [Commands] section locally.
 .El
+.Sh EXAMPLES
 .Pp
 An example of a simple, valid payload file is as follows:
-.Bl
-.It
-[Target]
-.It
-target=172.16.1.1
-.It
-ssh_key=/path/to/ssh/key
-.It
-[Files]
-.It
-file=httpd.conf
-.It
-[Commands]
-.It
-command=doas cp httpd.conf /etc
-.It
-command=doas rcctl restart httpd
-.El
+.Dl [Target]
+.Dl target=172.16.1.1
+.Dl ssh_key=/path/to/ssh/key
+
+.Dl [Files]
+.Dl file=httpd.conf
+
+.Dl [Commands]
+.Dl command=doas cp httpd.conf /etc
+.Dl command=doas rcctl reload httpd
 .Pp
-This will first upload the file "httpd.conf" to the target, 172.16.1.1, then execute the commands
+To run this payload, execute the following:
+.Dl $ standoff -f payload_file 
+.Pp
+This will first connect to the target, 172.16.1.1, using the SSH key found at /path/to/ssh_key.
+It will upload the file "httpd.conf" to the remote user's home directory, then execute the commands
 in order. Files are always uploaded before commands are run.
 .Pp
-The [Commands] or [Files] sections do not need to be present and
+If either the [Commands] or [Files] sections is not present,
 .Nm
 will simply ignore that section. Likewise, the ssh_key parameter in the [Target] section is
 optional. 
 .Nm
 will attempt to connect via passphrase-based authentication if it is not supplied.
-
+.Sh AUTHOR
+Joseph Fierro <joseph.fierro@runbox.com>

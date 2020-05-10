@@ -49,7 +49,7 @@ file=httpd.conf
 
 [Commands]
 command=doas cp httpd.conf /etc
-command=doas rcctl restart httpd
+command=doas rcctl reload httpd
 
 ```
 
@@ -67,6 +67,12 @@ The ssh_key parameter is optional. If you don't provide one, standoff will
 attempt to connect to the target with passphrase-based authentication.
 
 More complex example payload files can be found in the examples/ directory. 
+
+standoff can also be run in "pull" mode by specifying the -p option.
+This will connect to the server in the [Target] section, download any files requested in the
+[Files] section, and then locally run the commands from the [Commands] section.
+This is especially useful when combined with cron, as it can be used to remotely manage
+endpoints even if they are behind NAT and/or firewalls. 
 
 ### Limitations
 
