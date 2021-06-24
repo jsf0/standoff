@@ -15,7 +15,6 @@ You will need the following Perl modules: Net::OpenSSH and Config::IniFiles. If 
 install them first:
 
 ```
-
 # cpan -i Net::OpenSSH
 # cpan -i Config::IniFiles
 ```
@@ -29,7 +28,6 @@ rather than cpan(1):
 
 To install standoff and its man page, run:
 ```
-
 # ./install.sh
 ```
 You may need to tweak the install locations for your platform. 
